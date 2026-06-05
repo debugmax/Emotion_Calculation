@@ -1,8 +1,9 @@
 # 特征文件（体积大，需本地准备）
 feature/
 
-# 模型权重
+# 模型权重（最优 checkpoint 通过 Git LFS 上传）
 *.bin
+!MELD/save_model/multimodal_fusion_best.bin
 *.pth
 *.pkl
 
