@@ -1,65 +1,95 @@
-# MELD 多模态融合优化实验报告
+# MAGTKD
+Jie Li, Shifei Ding, Lili Guo, and Xuan Li, "Multi-modal Anchor Gated Transformer with Knowledge Distillation for Emotion Recognition in Conversation". (IJCAI 2025, Pytorch Code)
 
-## 1. 结果对比
+## Abstract
+Emotion Recognition in Conversation (ERC) aims to detect the emotions of individual utterances within a conversation. Generating efficient and modality-specific representations for each utterance remains a significant challenge. Previous studies have proposed various models to integrate features extracted using different modality-specific encoders. However, they neglect the varying contributions of modalities to this task and introduce high complexity by aligning modalities at the frame level. To address these challenges, we propose the Multi-modal Anchor Gated Transformer with Knowledge Distillation (MAGTKD) for the ERC task. Specifically, prompt learning is employed to enhance textual modality representations, while knowledge distillation is utilized to strengthen representations of weaker modalities. Furthermore, we introduce a multi-modal anchor gated transformer to effectively integrate utterance-level representations across modalities. Extensive experiments on the IEMOCAP and MELD datasets demonstrate the effectiveness of knowledge distillation in enhancing modality representations and achieve state-of-the-art performance in emotion recognition. Our code is available at: https://github.com/JieLi-dd/MAGTKD.
 
-在 MELD 测试集上，相对原始 baseline，优化后的最终模型在 accuracy 与 weighted F1 上均有提升：
+<picture>
+<img src="./src/Framework.jpg" width="700">
+</picture>
 
-| 指标 | 原始 Baseline | 优化后（最优） | 提升 |
-|------|---------------|----------------|------|
-| test_acc (%) | 66.02 | **67.05** | +1.03 |
-| test_fscore (%) | 64.87 | **65.52** | +0.65 |
-| composite (acc + fscore) | 130.89 | **132.57** | +1.68 |
+## Requirements
+The following pretrained models are used for feature extraction from the three modalities:
+1. Text Modality: [RoBERTa-large](https://huggingface.co/FacebookAI/roberta-large)
+2. Audio Modality: [data2vec-audio-base-960h](https://huggingface.co/facebook/data2vec-audio-base-960h)
+3. Video Modality: [Videomae-base and](https://huggingface.co/MCG-NJU/videomae-base) and 
+[Timesformer-base-finetuned-k400](https://huggingface.co/facebook/timesformer-base-finetuned-k400)
 
-- **原始 Baseline**：`log_baseline.txt` epoch 3，默认训练配置，推理仅使用文本分支。
-- **优化后最优**：`log` / `d10` epoch 14，`dual_beat=True`，模型权重见 `MELD/save_model/multimodal_fusion_best.bin`。
-
----
-
-## 2. 新增技术点及效果
-
-| 技术点 | 实现位置 | 说明 | 代表实验 | test_acc / test_fscore | 相对 baseline 提升 |
-|--------|----------|------|----------|------------------------|-------------------|
-| 训练-推理分离的 Logit 集成 | `model.py` → `ModalityFusionHead` | 训练主损失仅作用于文本 logit；推理时 `fused = t + w_a·a + w_v·v` | r6_ensemble_strong | 66.86 / 65.32 | +0.84 / +0.45 |
-| 类别加权 CE + Label Smoothing | `multimodel_fusion.py` | 按类别频率逆平方根加权；`label_smoothing=0.05` | r15_combo_all | 66.97 / 65.47 | +0.95 / +0.60 |
-| 训练策略优化 | `multimodel_fusion.py` | warmup 按 batch 计（10% steps）、早停 `patience=12`、`lr=5e-5`、`dropout=0.6` | r15_combo_all | 66.97 / 65.47 | +0.95 / +0.60 |
-| 双指标 Checkpoint 选择 | `multimodel_fusion.py` | 保存时优先满足 acc 与 fscore 同时超线，再比较 composite | d10 | 67.05 / 65.52 | +1.03 / +0.65 |
-| 非对称 Logit 集成 + Seed 搜索 | `ModalityFusionHead` + CLI | `ensemble_a=0.32, ensemble_v=0.28, seed=3407` | d10 / d11_confirm | **67.05 / 65.52** | **+1.03 / +0.65** |
-| Residual Cross-Attention 结构融合 | `model.py` → `ResidualTriModalFusion` | 线性拼接基线 + 交叉注意力残差（`fusion_arch=residual_cross`） | s7_residual_cross | 66.86 / 65.65 | +0.84 / +0.78 |
-
-完整消融数据见 [`experiment_logs/ablation_results.csv`](MELD/experiment_logs/ablation_results.csv)。
-
----
-
-## 3. 推理复现
-
-### 3.1 前置条件
-
-在 `MELD/` 目录下执行，需已具备：
-
-- 特征文件：`feature/first_stage_test_features.pkl`（及 dev/train 若需其他 split）
-- 模型权重：`MELD/save_model/multimodal_fusion_best.bin`
-- 训练配置：`MELD/save_model/checkpoint_config.json`
-- 推理脚本：`inference.py`
-
-### 3.2 最优配置
-
-```bash
---fusion_arch linear
---fusion_mode fixed
---seed 3407
---ensemble_a 0.32
---ensemble_v 0.28
---lr 5e-5
---dropout 0.6
---loss_target text
---label_smoothing 0.05
---kd_weight_a 0.01MELD/
---kd_weight_v 0.08
+Python environment dependencies:
+```
+python==3.9.19
+torch==1.13.1+cu116
+torchvision==0.14.1+cu116   
+torchaudio==0.13.1+cu116
+transformers==4.27.2
 ```
 
-以上参数已写入 `checkpoint_config.json`，推理时自动加载，无需手动指定。
+## Clone
 
-### 3.3 运行推理
+本仓库部分大文件通过 Git LFS 托管，克隆前请先安装 [Git LFS](https://git-lfs.github.com/)：
+
+```bash
+git lfs install
+git clone https://github.com/debugmax/Emotion_Calculation.git
+cd Emotion_Calculation
+```
+
+## Download Missing Model Weights
+
+受 GitHub 单文件大小限制，`MELD/MELD/save_model/` 中部分一阶段模型权重未包含在仓库内。请从 ModelScope 下载后解压，并**合并**到该目录。
+
+**下载地址**：[ModelScope - max2003/magtkd](https://www.modelscope.cn/models/max2003/magtkd/files)
+
+**目标目录**：`MELD/MELD/save_model/`
+
+**仓库中已包含**（无需重复下载）：
+
+| 文件 | 说明 |
+|------|------|
+| `multimodal_fusion_best.bin` | 最优融合模型（Git LFS） |
+| `checkpoint_config.json` | 最优训练/推理配置 |
+| `multimodal_fusion_best.json` | 测试集预测结果（用于校验） |
+
+**需从 ModelScope 下载并合并**：
+
+| 文件 | 说明 |
+|------|------|
+| `text.bin` | 文本模态一阶段模型 |
+| `audio.bin` | 音频模态一阶段模型 |
+| `video.bin` | 视频模态一阶段模型 |
+| `text_KD_audio.bin` | 文本→音频知识蒸馏模型 |
+| `text_KD_video.bin` | 文本→视频知识蒸馏模型 |
+| `fusion_head_best.bin` | 融合头权重（非 fixed 模式时使用，可选） |
+
+**操作步骤**：
+
+1. 打开 [ModelScope 模型文件页](https://www.modelscope.cn/models/max2003/magtkd/files)，下载压缩包或对应 `.bin` 文件；
+2. 解压下载内容；
+3. 将上述缺失文件复制到 `MELD/MELD/save_model/`，与仓库已有文件合并（**不要覆盖** `multimodal_fusion_best.bin`、`checkpoint_config.json`、`multimodal_fusion_best.json`）。
+
+合并完成后，目录结构如下：
+
+```
+MELD/MELD/save_model/
+├── text.bin                      # ModelScope 下载
+├── audio.bin                     # ModelScope 下载
+├── video.bin                     # ModelScope 下载
+├── text_KD_audio.bin             # ModelScope 下载
+├── text_KD_video.bin             # ModelScope 下载
+├── fusion_head_best.bin          # ModelScope 下载（可选）
+├── multimodal_fusion_best.bin    # 仓库已提供
+├── checkpoint_config.json        # 仓库已提供
+└── multimodal_fusion_best.json   # 仓库已提供
+```
+
+> **预训练模型**：`pretrained_model/` 目录（RoBERTa-large、data2vec、Timesformer 等）未上传至 GitHub，请按上方 Requirements 中的链接自行下载，放置到项目根目录 `pretrained_model/` 下。
+
+## MELD Inference (Optimized)
+
+本仓库包含 MELD 多模态融合优化代码。仅复现最优推理结果时，需确保已具备：
+
+- `MELD/feature/first_stage_test_features.pkl`（仓库已包含）
+- `MELD/MELD/save_model/multimodal_fusion_best.bin`（仓库已包含）
 
 ```bash
 cd MELD
@@ -69,36 +99,156 @@ python inference.py \
   --split test
 ```
 
-**预期输出**：
+预期输出：`accuracy=67.05, f1=65.52`。详细实验说明见 [`MELD/EXPERIMENT_REPORT.md`](MELD/EXPERIMENT_REPORT.md)。
 
+## Datasets
+We use two widely adopted ERC datasets:
+1. [IEMOCAP](https://sail.usc.edu/iemocap/iemocap_release.htm)
+2. [MELD](https://github.com/declare-lab/MELD/)
+
+In the first stage, modality-specific features are extracted via knowledge distillation. You may download and use the pre-extracted features provided below.
 ```
-split=test, accuracy=67.05, f1=65.52
-reference check: preds_match=True, acc_ok=True, fscore_ok=True
-validation passed
+Project
+| - datasets
+    | - IEMOCAP
+        | - IEMOCAP_train.csv
+        | - IEMOCAP_dev.csv
+        | - IEMOCAP_test.csv
+        | - Session1
+        ...
+    | - MELD
+        | - train_meld_emo.csv
+        | - dev_meld_emo.csv
+        | - test_meld_emo.csv
+        | - dev_splits_complete
+        | - train_splits
+        | - output_repeated_splits_test
+        ...
+| - pretrained_model
+    | - roberta-large
+    | - data2vec-audio-base-960h
+    | - timesformer-base-finetuned-k400
+    | - videomae-base
+| - IEMOCAP
+    | - feature
+        | - video
+            | - train
+            | - dev
+            | - test
+    | - IEMOCAP
+        | - save_model
+            | - text.bin
+            | - audio.bin
+            | - video.bin
+            | - text_KD_audio.bin
+            | - video_KD_text.bin
+    | - model.py
+    | - utils.py
+    | - preprocessing.py
+    | - dataset.py
+    | - text.py
+    | - audio.py
+    | - video.py
+    | - video_feature_extract.py
+    | - KD.py
+| - MELD
 ```
 
-脚本会自动与 `MELD/save_model/multimodal_fusion_best.json` 中的预测结果逐条比对，确保复现一致。
-
-### 3.4 常用可选参数
-
-| 参数 | 说明 |
-|------|------|
-| `--split dev` / `--split train` | 在 dev 或 train 划分上推理 |
-| `--output path/to/preds.json` | 将 labels、preds、acc、f1 保存为 JSON |
-| `--no-validate` | 跳过与参考 JSON 的一致性校验 |
-| `--ensemble_a` / `--ensemble_v` | 覆盖 config 中的集成权重 |
-
-### 3.5 推理流程
-
+## Train and test
+To train from scratch on the IEMOCAP dataset:
 ```
-first_stage_test_features.pkl
-        ↓
-Transformer_Based_Model  →  text / audio / video logits
-        ↓
-ModalityFusionHead (fixed)  →  fused = t + 0.32·a + 0.28·v
-        ↓
-argmax  →  预测标签
+# 1. Extract text features
+python text.py  
+
+# 2. Extract audio features
+python audio.py  
+
+# 3. Extract raw video features
+python video_feature_extract.py  
+
+# 4. Process video features
+python video.py  
+
+# 5. Perform knowledge distillation (audio student, text teacher)
+python KD.py --student audio --teacher text  
+
+# 6. Perform knowledge distillation (video student, text teacher)
+python KD.py --student video --teacher text  
+
+# 7. Extract fused features from all modalities (first stage)
+python extract_first_stage_features.py  
+
+# 8. Perform multimodal fusion training and testing
+python multimodal_fusion.py
 ```
 
----
+**For the MELD dataset:**
+The directory structure and training process are the same as for IEMOCAP.
 
+**To run testing only:**
+Please first download and place the distilled first-stage features into the corresponding dataset folders:
+1. [Baidu Netdisk](https://pan.baidu.com/s/1t3Y1jdWgMXqhCkaT6gB1ww?pwd=dzz5),
+2. [Google Drive](https://drive.google.com/file/d/19g3hTaBEKF5wXI0DHdvRYbu0BD3XZa3d/view?usp=sharing)
+
+Then run:
+```
+python multimodal_fusion.py --train True
+```
+
+
+## Cite
+If you find our work useful, please consider citing the following the paper:
+```
+@inproceedings{Li-2025-MAGTKD,
+  title     = {Multi-modal Anchor Gated Transformer with Knowledge Distillation for Emotion Recognition in Conversation},
+  author    = {Li, Jie and Ding, Shifei and Guo, Lili and Li, Xuan},
+  booktitle = {Proceedings of the Thirty-Fourth International Joint Conference on
+               Artificial Intelligence, {IJCAI-25}},
+  pages     = {8141--8149},
+  year      = {2025},
+  doi       = {10.24963/ijcai.2025/905},
+}
+```
+
+## References
+It is recommended to cite these papers simultaneously.
+```
+@inproceedings{song-etal-2022-supervised,
+    title = "Supervised Prototypical Contrastive Learning for Emotion Recognition in Conversation",
+    author = "Song, Xiaohui  and
+      Huang, Longtao  and
+      Xue, Hui  and
+      Hu, Songlin",
+    booktitle = "EMNLP",
+    year = "2022",
+    pages = "5197--5206",
+}
+@inproceedings{yun-etal-2024-telme,
+    title = "{T}el{ME}: Teacher-leading Multimodal Fusion Network for Emotion Recognition in Conversation",
+    author = "Yun, Taeyang  and
+      Lim, Hyunkuk  and
+      Lee, Jeonghwan  and
+      Song, Min",
+    booktitle = "NAACL",
+    year = "2024",
+    pages = "82--95",
+}
+@ARTICLE{10109845,
+  author={Ma, Hui and Wang, Jian and Lin, Hongfei and Zhang, Bo and Zhang, Yijia and Xu, Bo},
+  journal={IEEE Transactions on Multimedia}, 
+  title={A Transformer-Based Model With Self-Distillation for Multimodal Emotion Recognition in Conversations}, 
+  year={2024},
+  volume={26},
+  number={},
+  pages={776-788},
+}
+```
+
+
+## Acknowledgement
+Our method builds upon the implementations of the following projects:
+1. [SPCL](https://github.com/caskcsg/spcl)
+2. [TelME](https://github.com/yuntaeyang/TelME)
+3. [SDT](https://github.com/butterfliesss/SDT)
+
+We thank the authors of these works for sharing their codebases.
