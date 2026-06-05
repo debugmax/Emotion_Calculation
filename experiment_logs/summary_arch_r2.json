@@ -1,0 +1,72 @@
+{
+  "baseline": {
+    "test_acc": 66.97,
+    "test_fscore": 65.47,
+    "composite": 132.44
+  },
+  "results": [
+    {
+      "epoch": 19,
+      "test_acc": 66.86,
+      "test_fscore": 65.65,
+      "composite": 132.51,
+      "name": "s7_residual_cross",
+      "desc": "线性基线+交叉注意力残差",
+      "args": [
+        "--fusion_arch",
+        "residual_cross"
+      ],
+      "delta": 0.07,
+      "beats": true
+    },
+    {
+      "epoch": 16,
+      "test_acc": 66.78,
+      "test_fscore": 65.5,
+      "composite": 132.28,
+      "name": "s9_linear+moddrop",
+      "desc": "线性+模态dropout训练",
+      "args": [
+        "--fusion_arch",
+        "linear",
+        "--modality_drop",
+        "0.15"
+      ],
+      "delta": -0.16,
+      "beats": false
+    },
+    {
+      "epoch": 19,
+      "test_acc": 66.74,
+      "test_fscore": 65.53,
+      "composite": 132.26999999999998,
+      "name": "s6_residual_attn",
+      "desc": "线性基线+注意力残差",
+      "args": [
+        "--fusion_arch",
+        "residual_attn"
+      ],
+      "delta": -0.17,
+      "beats": false
+    },
+    {
+      "epoch": 19,
+      "test_acc": 66.74,
+      "test_fscore": 65.53,
+      "composite": 132.26999999999998,
+      "name": "s8_residual+logit",
+      "desc": "残差注意力+Logit集成",
+      "args": [
+        "--fusion_arch",
+        "residual_attn",
+        "--ensemble_a",
+        "0.3",
+        "--ensemble_v",
+        "0.3"
+      ],
+      "delta": -0.17,
+      "beats": false
+    }
+  ],
+  "timestamp": "2026-06-05T17:20:15.596932"
+}

@@ -1,0 +1,96 @@
+{
+  "baseline": {
+    "test_acc": 66.97,
+    "test_fscore": 65.47,
+    "composite": 132.44
+  },
+  "timestamp": "2026-06-05T16:51:46.648112",
+  "results": [
+    {
+      "epoch": 24,
+      "test_acc": 66.97,
+      "test_fscore": 65.47,
+      "composite": 132.44,
+      "name": "f0_fixed",
+      "desc": "固定权重基线",
+      "args": [
+        "--fusion_mode",
+        "fixed"
+      ],
+      "delta": 0.0,
+      "beats": false
+    },
+    {
+      "epoch": 25,
+      "test_acc": 66.4,
+      "test_fscore": 65.19,
+      "composite": 131.59,
+      "name": "f1_global",
+      "desc": "可学习全局权重+融合辅助损失",
+      "args": [
+        "--fusion_mode",
+        "global",
+        "--loss_target",
+        "text+fused",
+        "--aux_fused_weight",
+        "0.15"
+      ],
+      "delta": -0.85,
+      "beats": false
+    },
+    {
+      "epoch": 1,
+      "test_acc": 64.87,
+      "test_fscore": 64.19,
+      "composite": 129.06,
+      "name": "f2_utterance",
+      "desc": "utterance自适应+融合辅助损失",
+      "args": [
+        "--fusion_mode",
+        "utterance",
+        "--loss_target",
+        "text+fused",
+        "--aux_fused_weight",
+        "0.15"
+      ],
+      "delta": -3.38,
+      "beats": false
+    },
+    {
+      "epoch": 1,
+      "test_acc": 64.29,
+      "test_fscore": 64.16,
+      "composite": 128.45,
+      "name": "f3_dialogue",
+      "desc": "对话级均值池化+融合辅助损失",
+      "args": [
+        "--fusion_mode",
+        "dialogue",
+        "--loss_target",
+        "text+fused",
+        "--aux_fused_weight",
+        "0.15"
+      ],
+      "delta": -3.99,
+      "beats": false
+    },
+    {
+      "epoch": 1,
+      "test_acc": 64.29,
+      "test_fscore": 64.16,
+      "composite": 128.45,
+      "name": "f4_dialogue_attn",
+      "desc": "对话级注意力池化+融合辅助损失",
+      "args": [
+        "--fusion_mode",
+        "dialogue_attn",
+        "--loss_target",
+        "text+fused",
+        "--aux_fused_weight",
+        "0.15"
+      ],
+      "delta": -3.99,
+      "beats": false
+    }
+  ]
+}

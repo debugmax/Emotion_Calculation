@@ -1,0 +1,78 @@
+{
+  "best_prev": {
+    "test_acc": 66.97,
+    "test_fscore": 65.47,
+    "composite": 132.44
+  },
+  "results": [
+    {
+      "epoch": 19,
+      "test_acc": 66.86,
+      "test_fscore": 65.65,
+      "composite": 132.51,
+      "name": "s10_rescross+logit",
+      "desc": "残差交叉注意力+Logit集成",
+      "args": [
+        "--fusion_arch",
+        "residual_cross",
+        "--ensemble_a",
+        "0.3",
+        "--ensemble_v",
+        "0.3"
+      ],
+      "delta": 0.07
+    },
+    {
+      "epoch": 19,
+      "test_acc": 66.82,
+      "test_fscore": 65.46,
+      "composite": 132.27999999999997,
+      "name": "s13_rescross+ens35",
+      "desc": "残差交叉+更强logit集成0.35",
+      "args": [
+        "--fusion_arch",
+        "residual_cross",
+        "--ensemble_a",
+        "0.35",
+        "--ensemble_v",
+        "0.35"
+      ],
+      "delta": -0.16
+    },
+    {
+      "epoch": 24,
+      "test_acc": 66.63,
+      "test_fscore": 65.49,
+      "composite": 132.12,
+      "name": "s11_rescross+moddrop",
+      "desc": "残差交叉注意力+模态dropout",
+      "args": [
+        "--fusion_arch",
+        "residual_cross",
+        "--modality_drop",
+        "0.1"
+      ],
+      "delta": -0.32
+    },
+    {
+      "epoch": 29,
+      "test_acc": 66.28,
+      "test_fscore": 65.39,
+      "composite": 131.67000000000002,
+      "name": "s12_rescross+all",
+      "desc": "残差交叉+Logit+moddrop",
+      "args": [
+        "--fusion_arch",
+        "residual_cross",
+        "--ensemble_a",
+        "0.25",
+        "--ensemble_v",
+        "0.25",
+        "--modality_drop",
+        "0.1"
+      ],
+      "delta": -0.77
+    }
+  ],
+  "timestamp": "2026-06-05T17:30:15.705172"
+}

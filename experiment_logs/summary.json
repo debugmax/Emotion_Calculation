@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-06-05T15:22:19.571220",
+  "baseline_r2": {
+    "test_acc": 66.36,
+    "test_fscore": 65.09,
+    "composite": 131.45
+  },
+  "original": {
+    "test_acc": 66.02,
+    "test_fscore": 64.87,
+    "composite": 130.89
+  },
+  "results": [
+    {
+      "epoch": 6,
+      "test_acc": 66.86,
+      "test_fscore": 65.32,
+      "composite": 132.18,
+      "name": "r6_ensemble_strong",
+      "desc": "更强音视频集成 a=0.3 v=0.3",
+      "args": [
+        "--ensemble_a",
+        "0.3",
+        "--ensemble_v",
+        "0.3"
+      ],
+      "delta_vs_r2": 0.73,
+      "beats_baseline": true
+    },
+    {
+      "epoch": 23,
+      "test_acc": 66.51,
+      "test_fscore": 65.19,
+      "composite": 131.7,
+      "name": "r10_high_dropout",
+      "desc": "更高 dropout=0.6 抑制过拟合",
+      "args": [
+        "--dropout",
+        "0.6"
+      ],
+      "delta_vs_r2": 0.25,
+      "beats_baseline": true
+    },
+    {
+      "epoch": 11,
+      "test_acc": 66.44,
+      "test_fscore": 65.19,
+      "composite": 131.63,
+      "name": "r11_low_lr",
+      "desc": "更低学习率 lr=5e-5",
+      "args": [
+        "--lr",
+        "5e-5"
+      ],
+      "delta_vs_r2": 0.18,
+      "beats_baseline": true
+    },
+    {
+      "epoch": 3,
+      "test_acc": 66.36,
+      "test_fscore": 65.09,
+      "composite": 131.45,
+      "name": "r4_baseline_repro",
+      "desc": "复现第2轮基线",
+      "args": [],
+      "delta_vs_r2": 0.0,
+      "beats_baseline": false
+    },
+    {
+      "epoch": 3,
+      "test_acc": 66.48,
+      "test_fscore": 64.95,
+      "composite": 131.43,
+      "name": "r8_focal_g15",
+      "desc": "Focal Loss gamma=1.5",
+      "args": [
+        "--focal_gamma",
+        "1.5"
+      ],
+      "delta_vs_r2": -0.02,
+      "beats_baseline": false
+    },
+    {
+      "epoch": 3,
+      "test_acc": 66.4,
+      "test_fscore": 65.02,
+      "composite": 131.42000000000002,
+      "name": "r5_ensemble_asym",
+      "desc": "非对称集成权重 a=0.15 v=0.25",
+      "args": [
+        "--ensemble_a",
+        "0.15",
+        "--ensemble_v",
+        "0.25"
+      ],
+      "delta_vs_r2": -0.03,
+      "beats_baseline": false
+    },
+    {
+      "epoch": 3,
+      "test_acc": 66.4,
+      "test_fscore": 64.83,
+      "composite": 131.23000000000002,
+      "name": "r9_focal_g20",
+      "desc": "Focal Loss gamma=2.0",
+      "args": [
+        "--focal_gamma",
+        "2.0"
+      ],
+      "delta_vs_r2": -0.22,
+      "beats_baseline": false
+    },
+    {
+      "epoch": 3,
+      "test_acc": 66.09,
+      "test_fscore": 64.96,
+      "composite": 131.05,
+      "name": "r12_less_video_kd",
+      "desc": "降低视频KD权重 kd_v=0.05",
+      "args": [
+        "--kd_weight_v",
+        "0.05"
+      ],
+      "delta_vs_r2": -0.4,
+      "beats_baseline": false
+    },
+    {
+      "epoch": 6,
+      "test_acc": 65.9,
+      "test_fscore": 65.09,
+      "composite": 130.99,
+      "name": "r7_text_fused_aux",
+      "desc": "文本主损失 + 融合辅助损失",
+      "args": [
+        "--loss_target",
+        "text+fused",
+        "--aux_fused_weight",
+        "0.2"
+      ],
+      "delta_vs_r2": -0.46,
+      "beats_baseline": false
+    }
+  ]
+}

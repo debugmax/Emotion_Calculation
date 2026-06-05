@@ -1,0 +1,102 @@
+{
+  "baseline": {
+    "test_acc": 66.97,
+    "test_fscore": 65.47,
+    "composite": 132.44
+  },
+  "timestamp": "2026-06-05T17:10:29.544134",
+  "results": [
+    {
+      "epoch": 16,
+      "test_acc": 66.74,
+      "test_fscore": 65.3,
+      "composite": 132.04,
+      "name": "s0_linear",
+      "desc": "线性拼接基线",
+      "args": [
+        "--fusion_arch",
+        "linear"
+      ],
+      "delta": -0.4,
+      "beats": false
+    },
+    {
+      "epoch": 17,
+      "test_acc": 66.51,
+      "test_fscore": 65.37,
+      "composite": 131.88,
+      "name": "s1_trimodal_attn",
+      "desc": "内部三模态Token注意力",
+      "args": [
+        "--fusion_arch",
+        "trimodal_attn"
+      ],
+      "delta": -0.56,
+      "beats": false
+    },
+    {
+      "epoch": 17,
+      "test_acc": 66.51,
+      "test_fscore": 65.37,
+      "composite": 131.88,
+      "name": "s4_trimodal+logit",
+      "desc": "Token注意力+Logit集成",
+      "args": [
+        "--fusion_arch",
+        "trimodal_attn",
+        "--ensemble_a",
+        "0.3",
+        "--ensemble_v",
+        "0.3"
+      ],
+      "delta": -0.56,
+      "beats": false
+    },
+    {
+      "epoch": 16,
+      "test_acc": 66.36,
+      "test_fscore": 65.35,
+      "composite": 131.70999999999998,
+      "name": "s3_cross_enhance",
+      "desc": "文本跨模态交叉注意力",
+      "args": [
+        "--fusion_arch",
+        "cross_enhance"
+      ],
+      "delta": -0.73,
+      "beats": false
+    },
+    {
+      "epoch": 14,
+      "test_acc": 66.32,
+      "test_fscore": 65.38,
+      "composite": 131.7,
+      "name": "s2_speaker_gate",
+      "desc": "说话人感知门控融合",
+      "args": [
+        "--fusion_arch",
+        "speaker_gate"
+      ],
+      "delta": -0.74,
+      "beats": false
+    },
+    {
+      "epoch": 14,
+      "test_acc": 66.32,
+      "test_fscore": 65.38,
+      "composite": 131.7,
+      "name": "s5_speaker+logit",
+      "desc": "说话人门控+Logit集成",
+      "args": [
+        "--fusion_arch",
+        "speaker_gate",
+        "--ensemble_a",
+        "0.3",
+        "--ensemble_v",
+        "0.3"
+      ],
+      "delta": -0.74,
+      "beats": false
+    }
+  ]
+}
