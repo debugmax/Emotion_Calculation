@@ -26,7 +26,7 @@
 | 非对称 Logit 集成 + Seed 搜索 | `ModalityFusionHead` + CLI | `ensemble_a=0.32, ensemble_v=0.28, seed=3407` | d10 / d11_confirm | **67.05 / 65.52** | **+1.03 / +0.65** |
 | Residual Cross-Attention 结构融合 | `model.py` → `ResidualTriModalFusion` | 线性拼接基线 + 交叉注意力残差（`fusion_arch=residual_cross`） | s7_residual_cross | 66.86 / 65.65 | +0.84 / +0.78 |
 
-完整消融数据见 [`experiment_logs/ablation_results.csv`](experiment_logs/ablation_results.csv)。
+完整消融数据见 [`experiment_logs/ablation_results.csv`](MELD/experiment_logs/ablation_results.csv)。
 
 ---
 
@@ -53,7 +53,7 @@
 --dropout 0.6
 --loss_target text
 --label_smoothing 0.05
---kd_weight_a 0.01
+--kd_weight_a 0.01MELD/
 --kd_weight_v 0.08
 ```
 
@@ -102,4 +102,3 @@ argmax  →  预测标签
 
 ---
 
-*报告更新日期：2026-06-05*
