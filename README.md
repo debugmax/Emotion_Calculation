@@ -101,61 +101,9 @@ python inference.py \
 
 预期输出：`accuracy=67.05, f1=65.52`。详细实验说明见 [`MELD/EXPERIMENT_REPORT.md`](MELD/EXPERIMENT_REPORT.md)。
 
-## Datasets
-We use two widely adopted ERC datasets:
-1. [IEMOCAP](https://sail.usc.edu/iemocap/iemocap_release.htm)
-2. [MELD](https://github.com/declare-lab/MELD/)
-
-In the first stage, modality-specific features are extracted via knowledge distillation. You may download and use the pre-extracted features provided below.
-```
-Project
-| - datasets
-    | - IEMOCAP
-        | - IEMOCAP_train.csv
-        | - IEMOCAP_dev.csv
-        | - IEMOCAP_test.csv
-        | - Session1
-        ...
-    | - MELD
-        | - train_meld_emo.csv
-        | - dev_meld_emo.csv
-        | - test_meld_emo.csv
-        | - dev_splits_complete
-        | - train_splits
-        | - output_repeated_splits_test
-        ...
-| - pretrained_model
-    | - roberta-large
-    | - data2vec-audio-base-960h
-    | - timesformer-base-finetuned-k400
-    | - videomae-base
-| - IEMOCAP
-    | - feature
-        | - video
-            | - train
-            | - dev
-            | - test
-    | - IEMOCAP
-        | - save_model
-            | - text.bin
-            | - audio.bin
-            | - video.bin
-            | - text_KD_audio.bin
-            | - video_KD_text.bin
-    | - model.py
-    | - utils.py
-    | - preprocessing.py
-    | - dataset.py
-    | - text.py
-    | - audio.py
-    | - video.py
-    | - video_feature_extract.py
-    | - KD.py
-| - MELD
-```
 
 ## Train and test
-To train from scratch on the IEMOCAP dataset:
+To train from scratch on the MELD dataset:
 ```
 # 1. Extract text features
 python text.py  
@@ -179,76 +127,6 @@ python KD.py --student video --teacher text
 python extract_first_stage_features.py  
 
 # 8. Perform multimodal fusion training and testing
-python multimodal_fusion.py
+python multimodel_fusion.py
 ```
 
-**For the MELD dataset:**
-The directory structure and training process are the same as for IEMOCAP.
-
-**To run testing only:**
-Please first download and place the distilled first-stage features into the corresponding dataset folders:
-1. [Baidu Netdisk](https://pan.baidu.com/s/1t3Y1jdWgMXqhCkaT6gB1ww?pwd=dzz5),
-2. [Google Drive](https://drive.google.com/file/d/19g3hTaBEKF5wXI0DHdvRYbu0BD3XZa3d/view?usp=sharing)
-
-Then run:
-```
-python multimodal_fusion.py --train True
-```
-
-
-## Cite
-If you find our work useful, please consider citing the following the paper:
-```
-@inproceedings{Li-2025-MAGTKD,
-  title     = {Multi-modal Anchor Gated Transformer with Knowledge Distillation for Emotion Recognition in Conversation},
-  author    = {Li, Jie and Ding, Shifei and Guo, Lili and Li, Xuan},
-  booktitle = {Proceedings of the Thirty-Fourth International Joint Conference on
-               Artificial Intelligence, {IJCAI-25}},
-  pages     = {8141--8149},
-  year      = {2025},
-  doi       = {10.24963/ijcai.2025/905},
-}
-```
-
-## References
-It is recommended to cite these papers simultaneously.
-```
-@inproceedings{song-etal-2022-supervised,
-    title = "Supervised Prototypical Contrastive Learning for Emotion Recognition in Conversation",
-    author = "Song, Xiaohui  and
-      Huang, Longtao  and
-      Xue, Hui  and
-      Hu, Songlin",
-    booktitle = "EMNLP",
-    year = "2022",
-    pages = "5197--5206",
-}
-@inproceedings{yun-etal-2024-telme,
-    title = "{T}el{ME}: Teacher-leading Multimodal Fusion Network for Emotion Recognition in Conversation",
-    author = "Yun, Taeyang  and
-      Lim, Hyunkuk  and
-      Lee, Jeonghwan  and
-      Song, Min",
-    booktitle = "NAACL",
-    year = "2024",
-    pages = "82--95",
-}
-@ARTICLE{10109845,
-  author={Ma, Hui and Wang, Jian and Lin, Hongfei and Zhang, Bo and Zhang, Yijia and Xu, Bo},
-  journal={IEEE Transactions on Multimedia}, 
-  title={A Transformer-Based Model With Self-Distillation for Multimodal Emotion Recognition in Conversations}, 
-  year={2024},
-  volume={26},
-  number={},
-  pages={776-788},
-}
-```
-
-
-## Acknowledgement
-Our method builds upon the implementations of the following projects:
-1. [SPCL](https://github.com/caskcsg/spcl)
-2. [TelME](https://github.com/yuntaeyang/TelME)
-3. [SDT](https://github.com/butterfliesss/SDT)
-
-We thank the authors of these works for sharing their codebases.
