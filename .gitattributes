@@ -1,1 +1,2 @@
-MELD/save_model/multimodal_fusion_best.bin filter=lfs diff=lfs merge=lfs -text
+MELD/MELD/save_model/multimodal_fusion_best.bin filter=lfs diff=lfs merge=lfs -text
+MELD/feature/first_stage_train_features.pkl filter=lfs diff=lfs merge=lfs -text

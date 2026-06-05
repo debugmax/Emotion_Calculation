@@ -1,0 +1,34 @@
+=== Round: f3_dialogue ===
+args: {'lr': 5e-05, 'l2': 1e-06, 'batch_size': 16, 'seed': 2024, 'epochs': 30, 'dropout': 0.6, 'hidden_dim': 768, 'n_head': 8, 'temp': 2.0, 'clsNum': 7, 'train': True, 'label_smoothing': 0.05, 'kd_weight_a': 0.01, 'kd_weight_v': 0.08, 'ensemble_a': 0.3, 'ensemble_v': 0.3, 'fusion_mode': 'dialogue', 'loss_target': 'text+fused', 'aux_fused_weight': 0.15, 'focal_gamma': 0.0, 'patience': 12, 'min_epochs': 3, 'exp_name': 'f3_dialogue', 'log_file': './experiment_logs/f3_dialogue.log'}
+epoch: 0, train_loss: 2.6247, train_acc: 45.82, train_fscore: 38.02 valid_loss: 2.4567, valid_acc: 58.43, valid_fscore: 53.02,test_loss: 2.3716, test_acc: 62.38, test_fscore: 56.61, time: 1780649355.4678853
+epoch: 0, train_loss_a_kd: 8.083, train_loss_v_kd: 6.6474, valid_loss_a_kd: 6.2304, valid_loss_v_kd: 7.0365, test_loss_a_kd: 5.9525, test_loss_v_kd: 6.5169
+done
+epoch: 1, train_loss: 1.4062, train_acc: 86.6, train_fscore: 86.38 valid_loss: 2.3827, valid_acc: 65.92, valid_fscore: 65.6,test_loss: 2.3959, test_acc: 64.29, test_fscore: 64.16, time: 1780649361.3000054
+epoch: 1, train_loss_a_kd: 6.9123, train_loss_v_kd: 2.8059, valid_loss_a_kd: 6.8681, valid_loss_v_kd: 8.334, test_loss_a_kd: 6.4343, test_loss_v_kd: 7.8843
+done
+epoch: 2, train_loss: 1.0965, train_acc: 94.12, train_fscore: 94.13 valid_loss: 2.5056, valid_acc: 49.05, valid_fscore: 45.11,test_loss: 2.5157, test_acc: 51.72, test_fscore: 47.72, time: 1780649366.9193017
+epoch: 2, train_loss_a_kd: 6.2769, train_loss_v_kd: 1.9198, valid_loss_a_kd: 6.7405, valid_loss_v_kd: 8.7648, test_loss_a_kd: 6.3327, test_loss_v_kd: 8.2955
+epoch: 3, train_loss: 1.027, train_acc: 97.11, train_fscore: 97.11 valid_loss: 2.5465, valid_acc: 42.56, valid_fscore: 37.54,test_loss: 2.5629, test_acc: 47.28, test_fscore: 42.64, time: 1780649371.91612
+epoch: 3, train_loss_a_kd: 5.7399, train_loss_v_kd: 1.6245, valid_loss_a_kd: 6.6525, valid_loss_v_kd: 8.9059, test_loss_a_kd: 6.2651, test_loss_v_kd: 8.4192
+epoch: 4, train_loss: 0.9981, train_acc: 97.44, train_fscore: 97.45 valid_loss: 2.552, valid_acc: 44.09, valid_fscore: 38.46,test_loss: 2.5617, test_acc: 48.47, test_fscore: 43.1, time: 1780649376.8424973
+epoch: 4, train_loss_a_kd: 5.4738, train_loss_v_kd: 1.5318, valid_loss_a_kd: 6.4957, valid_loss_v_kd: 8.8193, test_loss_a_kd: 6.1042, test_loss_v_kd: 8.3173
+epoch: 5, train_loss: 0.9887, train_acc: 97.51, train_fscore: 97.52 valid_loss: 2.5486, valid_acc: 45.36, valid_fscore: 40.3,test_loss: 2.558, test_acc: 49.2, test_fscore: 44.3, time: 1780649381.8036783
+epoch: 5, train_loss_a_kd: 5.3168, train_loss_v_kd: 1.5104, valid_loss_a_kd: 6.472, valid_loss_v_kd: 8.8665, test_loss_a_kd: 6.1079, test_loss_v_kd: 8.3665
+epoch: 6, train_loss: 0.9737, train_acc: 97.74, train_fscore: 97.74 valid_loss: 2.5249, valid_acc: 45.45, valid_fscore: 40.15,test_loss: 2.5551, test_acc: 49.77, test_fscore: 44.69, time: 1780649386.7722812
+epoch: 6, train_loss_a_kd: 5.1684, train_loss_v_kd: 1.4751, valid_loss_a_kd: 6.432, valid_loss_v_kd: 8.8788, test_loss_a_kd: 6.0738, test_loss_v_kd: 8.3671
+epoch: 7, train_loss: 0.9699, train_acc: 97.87, train_fscore: 97.87 valid_loss: 2.5554, valid_acc: 45.9, valid_fscore: 40.68,test_loss: 2.5458, test_acc: 50.11, test_fscore: 45.25, time: 1780649391.6933694
+epoch: 7, train_loss_a_kd: 5.1063, train_loss_v_kd: 1.4654, valid_loss_a_kd: 6.3688, valid_loss_v_kd: 8.8694, test_loss_a_kd: 6.0011, test_loss_v_kd: 8.3414
+epoch: 8, train_loss: 0.9621, train_acc: 97.82, train_fscore: 97.82 valid_loss: 2.5478, valid_acc: 46.17, valid_fscore: 40.68,test_loss: 2.5599, test_acc: 49.62, test_fscore: 44.18, time: 1780649396.7254293
+epoch: 8, train_loss_a_kd: 5.0125, train_loss_v_kd: 1.4157, valid_loss_a_kd: 6.3185, valid_loss_v_kd: 8.7778, test_loss_a_kd: 5.9565, test_loss_v_kd: 8.2629
+epoch: 9, train_loss: 0.9609, train_acc: 97.85, train_fscore: 97.85 valid_loss: 2.5406, valid_acc: 46.17, valid_fscore: 40.66,test_loss: 2.552, test_acc: 50.15, test_fscore: 44.89, time: 1780649402.0264397
+epoch: 9, train_loss_a_kd: 4.9526, train_loss_v_kd: 1.4336, valid_loss_a_kd: 6.3376, valid_loss_v_kd: 8.8753, test_loss_a_kd: 5.9993, test_loss_v_kd: 8.3266
+epoch: 10, train_loss: 0.9519, train_acc: 97.95, train_fscore: 97.95 valid_loss: 2.5269, valid_acc: 47.88, valid_fscore: 42.64,test_loss: 2.537, test_acc: 51.76, test_fscore: 46.84, time: 1780649407.11362
+epoch: 10, train_loss_a_kd: 4.909, train_loss_v_kd: 1.4045, valid_loss_a_kd: 6.2759, valid_loss_v_kd: 8.8601, test_loss_a_kd: 5.9819, test_loss_v_kd: 8.3238
+epoch: 11, train_loss: 0.9432, train_acc: 97.95, train_fscore: 97.95 valid_loss: 2.5457, valid_acc: 43.64, valid_fscore: 37.92,test_loss: 2.5553, test_acc: 48.31, test_fscore: 42.82, time: 1780649412.3670151
+epoch: 11, train_loss_a_kd: 4.9368, train_loss_v_kd: 1.3998, valid_loss_a_kd: 6.2825, valid_loss_v_kd: 8.8813, test_loss_a_kd: 5.9569, test_loss_v_kd: 8.3247
+epoch: 12, train_loss: 0.9391, train_acc: 97.95, train_fscore: 97.95 valid_loss: 2.5372, valid_acc: 45.99, valid_fscore: 40.48,test_loss: 2.5392, test_acc: 50.27, test_fscore: 44.92, time: 1780649417.2823374
+epoch: 12, train_loss_a_kd: 4.8658, train_loss_v_kd: 1.3815, valid_loss_a_kd: 6.267, valid_loss_v_kd: 8.8971, test_loss_a_kd: 5.9453, test_loss_v_kd: 8.3235
+epoch: 13, train_loss: 0.9359, train_acc: 98.06, train_fscore: 98.06 valid_loss: 2.5541, valid_acc: 43.46, valid_fscore: 37.63,test_loss: 2.5522, test_acc: 48.24, test_fscore: 42.73, time: 1780649422.3646119
+epoch: 13, train_loss_a_kd: 4.8045, train_loss_v_kd: 1.3603, valid_loss_a_kd: 6.2361, valid_loss_v_kd: 8.8607, test_loss_a_kd: 5.9111, test_loss_v_kd: 8.2798
+early stopping at epoch 13, best epoch 1, best test_acc 64.29, best test_fscore 64.16
+FINAL best epoch 1: test_acc=64.29, test_fscore=64.16, composite=128.45

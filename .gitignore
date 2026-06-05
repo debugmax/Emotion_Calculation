@@ -1,21 +1,19 @@
-# 特征文件（体积大，需本地准备）
-feature/
+# 预训练模型（体积过大，请按 README 自行下载到 pretrained_model/）
+pretrained_model/
 
-# 模型权重（最优 checkpoint 通过 Git LFS 上传）
-*.bin
-!MELD/save_model/multimodal_fusion_best.bin
-*.pth
-*.pkl
+# 一阶段大权重（单文件 356MB~1.4GB，超出 GitHub/LFS 免费配额）
+# 推理仅需 multimodal_fusion_best.bin（已通过 LFS 上传）
+MELD/MELD/save_model/audio.bin
+MELD/MELD/save_model/text.bin
+MELD/MELD/save_model/text_KD_audio.bin
+MELD/MELD/save_model/text_KD_video.bin
+MELD/MELD/save_model/video.bin
+MELD/MELD/save_model/fusion_head_best.bin
 
-# Python 缓存
 __pycache__/
 *.pyc
 *.pyo
-
-# IDE
 .idea/
 .vscode/
-
-# 临时文件
 *.swp
 *~
